@@ -1,85 +1,105 @@
 # 📈 Dashboard Comercial y Análisis de Desempeño (2024–2025) | Andes Retail Group
 
+> 👤 **Rol:** Analista de Datos (Proyecto Individual)  
+> 🏢 **Contexto:** Caso de Negocio / Proyecto de Portafolio (Bootcamp Analytics)  
+> 🎯 **Alcance:** Proceso End-to-End (Exploración y preparación de datos en Python, diseño de Dashboard en Tableau y narrativa ejecutiva SCQA).  
+> 🛠️ **Stack Técnico:** Tableau Desktop, Python (Pandas/Jupyter), Modelado Dimensional, Campos Calculados, Framework SCQA.
+
 ---
 
 ## 🎯 Contexto y Desafío de Negocio
 
-**Andes Retail Group** opera en **Perú, Chile y Colombia** comercializando productos en cuatro categorías: **Electrónica, Ropa, Deportes y Hogar** a través de tres segmentos de clientes (**Consumidor, PyME y Corporativo**).
+**Andes Retail Group** es una empresa de retail con operaciones transaccionales en **Perú, Chile y Colombia**, comercializando productos a través de cuatro categorías principales: **Electrónica, Ropa, Deportes y Hogar** en tres segmentos de clientes (**Económico, Estándar y Premium**).
 
-El negocio gestionaba ~10,000 transacciones sin una visión analítica unificada. La dirección ejecutiva requería una solución de inteligencia de negocios para responder a 6 preguntas clave sobre el desempeño 2024–2025:
+El dataset contiene **5,000 registros transaccionales (12 campos)** del período 2024–2025. La dirección ejecutiva requería una visión analítica unificada mediante dos dashboards integrados (Vista General + Vista Detallada) para responder a 6 preguntas clave de negocio:
 
-1. **Evolución Temporal:** ¿Cómo han evolucionado los ingresos 2024 vs. 2025 y cuáles son los meses críticos?
-2. **Segmentación:** ¿Qué segmentos generan mayor volumen e ingreso de ganancia?
-3. **Impacto por Categoría:** ¿Cuál es la participación de Electrónica, Ropa, Deportes y Hogar?
-4. **Desempeño Geográfico:** ¿Existen desviaciones o brechas de desempeño entre países y regiones?
-5. **Estacionalidad:** ¿Cómo afectan las estaciones climáticas (Verano, Invierno, Primavera, Otoño) la venta?
-6. **Oportunidades:** ¿Dónde están los cuellos de botella del negocio (¿Problema de margen o de volumen?)?
+1. **Evolución Temporal (YoY):** ¿Cómo evolucionan los ingresos entre 2024 y 2025 e identificando meses críticos?
+2. **Segmentación de Clientes:** ¿Qué segmentos aportan mayor ingreso y rentabilidad?
+3. **Impacto por Categorías:** ¿Qué categorías tienen mayor impacto en el negocio?
+4. **Desempeño Geográfico:** ¿Cuáles son las diferencias de rentabilidad entre países y regiones?
+5. **Estacionalidad Climática:** ¿Existen patrones temporales/estacionales a lo largo del año?
+6. **Oportunidades Comerciales:** ¿Dónde están los focos de mejora (¿Problema de volumen o de eficiencia de margen?)?
 
 ---
 
-## 🛠️ Metodología y Modelo de Datos
+## 🛠️ Conexión, Exploración y Preparación de Datos
 
-* **Limpieza y Preparación (Python):** Validación de 5,000+ registros transaccionales, estandarización de tipos de datos (`Ingresos` y `Precio Unitario` a decimales), formato regional en español y creación de variables condicionales (`Nivel_Venta`).
-* **Modelado y Campos Calculados:** Implementación de fórmulas de negocio para `Ganancia = Ingresos - Costo`, `% Margen de Ganancia = (Ganancia / Ingresos) * 100`, `YoY Growth` y agrupación por estaciones del año.
-* **Arquitectura de Dashboard (2 Vistas):**
-  * **Vista 1: Overview Ejecutivo:** Diseñada para lectura en segundos por directivos (KPIs principales, evolución temporal, categorías y oportunidades por país).
-  * **Vista 2: Análisis Detallado:** Diseñada para analistas (Análisis de estacionalidad clima × categoría, dispersión Ingresos vs. Margen y tabla comparativa).
+Durante la fase de auditoría e ingeniería de datos en el Notebook/Power Query, se realizaron las siguientes validaciones y transformaciones:
+
+* **Calidad de Datos:** Evaluación de 5,000 filas y 12 columnas. No se encontraron registros nulos ni errores de consistencia.
+* **Ajuste de Tipos de Datos:**
+  * `Ingresos` y `Precio Unitario`: Convertidos de entero a decimal para precisión financiera.
+  * `Costo`: Mantenido como decimal.
+  * `Unidades Vendidas`: Mantenido como entero.
+  * `Fecha_Pedido`: Estandarizado a formato fecha regional en español (Latinoamérica).
+* **Campos Calculados & Variables Condicionales:**
+  * `Ganancia` $= \text{Ingresos} - \text{Costo}$
+  * `Margen_Ganancia (%)` $= (\text{Ganancia} / \text{Ingresos}) \times 100$
+  * `Nivel_Venta`: Columna condicional creada donde $\text{Ingresos} \ge 1000 \rightarrow \text{"Venta Alta"}$, de lo contrario $\text{"Venta Baja"}$.
+  * `País-Región`: Concatenación para análisis geográfico granular.
+
+---
+
+## 🖼️ Estructura del Dashboard y Visualizaciones
+
+El proyecto se estructuró bajo una jerarquía visual estratégica: **KPIs en la zona superior**, **gráficos principales en la zona media** y **desgloses detallados/tablas en la zona inferior**.
+
+### 🖥️ Vista 1: Overview Ejecutivo (Vista General)
+*Diseñada para que directivos entiendan el estado global del negocio en 30 segundos.*
+
+* **KPIs Principales:** Ingresos Totales ($5.532K), Unidades Vendidas (57,601), Ganancia Total ($1,942K) y % Margen de Ganancia (35.1%).
+* **Evolución de Ingresos (Líneas):** Compara mes a mes 2024 vs 2025 para detectar la caída interanual.
+* **Rentabilidad Geográfica (Barras Horizontales):** Muestra el margen por País-Región (resaltando Colombia-Sur con 34.9%).
+* **Ingresos y Ganancia por Segmento (Columnas Agrupadas):** Compara el aporte de los segmentos Económico, Premium y Estándar.
+* **Impacto por Categoría de Producto(Barras Horizontales):** Muestra la contribución de Deportes, Electrónica, Hogar y Ropa.
+
+![Visión General](visualizaciones/vision_general.png)
+
+---
+
+### 🔎 Vista 2: Análisis Detallado (Deep-Dive Estacional)
+*Diseñada para que analistas exploren causas de fondo y patrones de comportamiento.*
+
+* **Ingresos Mensuales por Estación (Líneas por Clima):** Identifica el comportamiento de ventas a lo largo del año según la estación.
+* **Rentabilidad por Estación y Categoría de Producto (Barras Apiladas):** Evalúa qué categorías sostienen la ganancia en Verano, Otoño, Invierno y Primavera.
+* **Rentabilidad por País-Región y Categoría de Producto (Barras Apiladas):** Compara la mezcla de producto por zona geográfica.
+* **Scatter Diagnóstico (Dispersión Ingresos vs % Margen):** Cruza volumen de ventas contra eficiencia de margen con líneas de referencia promedio para aislar el problema real de negocio.
+* **Tabla Comparativa Final:** Presenta el desglose con conteo de pedidos, clientes únicos, ganancia y % de margen.
+
+![Visión Detallada](visulizaciones/vision_detallada.png)
 
 ---
 
 ## 💡 Informe Ejecutivo (Framework SCQA)
 
 ### 🖥️ 1. Vista General (Overview)
-
-* **S (Situación):** Andes Retail Group generó **$1,942K en ganancia total** entre 2024 y 2025 a través de sus operaciones en Perú, Chile y Colombia, manteniendo un margen saludable y consistente del **35.1%**.
-* **C (Complicación):** Los ingresos del año **2025 sufrieron una caída del -6.7% frente a 2024**, afectando incluso a diciembre, tradicionalmente el mes más fuerte del año.
-* **Q (Pregunta):** ¿Dónde se genera el valor del negocio hoy y qué palancas deben activarse para revertir la caída sin perder rentabilidad?
-* **A (Respuesta):** Electrónica y Deportes concentran la mayor venta, mientras que los segmentos *Corporativo* y *Consumidor* aportan el volumen principal. Al evaluar el margen por corte (~35%), descubrimos que **la rentabilidad no se ha degradado**. El problema es estrictamente de **caída en volumen de ventas**, por lo que la prioridad comercial debe ser recuperar tracción transaccional y no ajustar precios o costos.
-
----
-
-### 🔎 2. Vista Detalle (Deep-Dive Estacional y Geográfico)
-
-* **S (Situación):** Tras detectar la caída en volumen, el desglose temporal muestra un patrón estacional severo: las categorías de **Ropa y Hogar** caen drásticamente en temporada baja, mientras que **Deportes** mantiene una demanda estable todo el año.
-* **C (Complicación):** El margen porcentual se mantiene plano e idéntico en todos los cortes analizados (entre **34.8% y 35.5%**). Sin embargo, las ventas en **Verano son 3.4 veces superiores a las de Invierno** ($2.24M vs. $653K) y Colombia genera **38% menos ganancia total** que Perú ($470K vs. $760K).
-* **Q (Pregunta):** Si el margen es idéntico entre países y estaciones, ¿qué causa las enormes brechas de ganancia neta?
-* **A (Respuesta):** La brecha es de **volumen operativo, no de eficiencia de precios**. Colombia y la temporada de Invierno venden a los mismos márgenes saludables de ~35%, pero procesan un número significativamente menor de transacciones. La oportunidad está en activar la demanda en temporada baja y expandir la cobertura comercial en Colombia.
+* **S (Situación):** Andes Retail Group opera en Perú, Chile y Colombia en cuatro categorías. Entre 2024 y 2025 generó **$1,942K en ganancia total**, con un margen bruto constante del **35.1%**.
+* **C (Complicación):** El negocio se desaceleró: **los ingresos de 2025 cayeron un -6.7% frente a 2024**, afectando incluso a diciembre (mes de mayor pico histórico).
+* **Q (Pregunta):** ¿Dónde está generando valor el negocio hoy y dónde existen palancas claras de mejora sin necesidad de un diagnóstico complejo?
+* **A (Respuesta):** Electrónica y Deportes lideran en volumen, mientras que los segmentos *Premium* ($2.598K ingresos) y *Estándar* ($2.437K ingresos) aportan el mayor valor absoluto. Al ser el margen casi idéntico en todos los cortes (~35%), **el problema no es de eficiencia de costos ni de precios, sino de pérdida de volumen de ventas**. La prioridad debe ser recuperar volumen comercial.
 
 ---
 
-## 🔍 Hallazgos Clave
-
-| Dimensión Analizada | Métrica / Ratio | Diagnóstico de Negocio |
-| :--- | :---: | :--- |
-| **Evolución Interanual (YoY)** | **-6.7%** (2025 vs 2024) | Pérdida de volumen transaccional en 2025 con impacto en Q4. |
-| **Estacionalidad (Verano vs Invierno)** | **3.4x** diferencia | Fuerte dependencia estacional; contracción severa en Invierno. |
-| **Eficiencia de Margen** | **34.8% – 35.5%** | Margen **ultra consistente** en todos los países, categorías y estaciones. |
-| **Mercado Líder en Ganancia** | **Perú ($760K)** | Supera a Colombia ($470K) por mayor volumen de transacciones. |
-| **Categoría Resiliente** | **Deportes** | Única categoría que mitiga caídas en temporadas frías. |
+### 🔎 2. Vista Detalle (Análisis Estacional y Geográfico)
+* **S (Situación):** El análisis de fondo revela patrones estacionales marcados: **Ropa y Hogar** sufren caídas drásticas en temporada baja, mientras que **Deportes** se mantiene estable todo el año. El margen de ganancia se mantiene increíblemente plano entre el **34.8% y el 35.5%** en todos los países, categorías y estaciones.
+* **C (Complicación):** A pesar de tener la misma eficiencia de margen, **Verano vende 3.4 veces más que Invierno** ($2,241,719 vs $653,513) y Colombia genera un 38% menos de ganancia que Perú ($470K vs $760K).
+* **Q (Pregunta):** Si el margen de ganancia es el mismo en todos los cortes, ¿qué causa estas brechas tan marcadas?
+* **A (Respuesta):** La diferencia es estrictamente de **volumen de ventas, no de margen de ganancia**. Perú genera más ganancia ($760K) que Colombia ($470K) porque procesa más transacciones, no porque venda con mayor margen. Para activar el negocio se deben enfocar campañas para levantar el volumen en Invierno y expandir la cobertura comercial en Colombia.
 
 ---
 
-## 🚀 Recomendaciones de Negocio & Próximos Pasos
-
-1. **Estrategia Anti-Cíclica para Invierno:** Lanzar promociones y paquetes especiales en las categorías de **Ropa y Hogar** durante el bimensual de menor tráfico para suavizar el valle estacional de Invierno.
-2. **Plan de Expansión de Volumen en Colombia:** Replicar la estrategia de distribución y alcance de Perú en el mercado colombiano; al tener márgenes sanos (~35%), cada incremento en volumen se traducirá directamente en ganancia neta.
-3. **Fidelización del Segmento Corporativo:** Desarrollar acuerdos comerciales B2B exclusivos para clientes corporativos, quienes registran el mayor ticket promedio y aportación de ganancia.
-
----
-
-## 💬 Comunicación Asincrónica de Negocio (Ejemplo Slack)
+## 💬 Comunicación Asincrónica para el Equipo (Slack)
 
 > **📊 Actualización Desempeño Comercial | Andes Retail Group**  
-> Equipo, comparto el diagnóstico ejecutivo 2024–2025:  
-> El **margen de ganancia es impecable y consistente (~35%)** en todos los países y categorías, pero registramos una **caída de ingresos del -6.7% en 2025** impulsada por volumen.
+> Equipo, el **Margen de Ganancia es ultra consistente (~35%)** en todos los cortes, pero los **ingresos cayeron -6.7% en 2025** frente a 2024.
 >
 > **2 Hallazgos Clave:**  
-> 1️⃣ **Efecto Clima:** Verano vende **3.4x más que Invierno** ($2.24M vs. $653K).  
-> 2️⃣ **Oportunidad Geográfica:** Colombia tiene el mismo margen que Perú (~35%), pero genera $290K menos de ganancia por menor volumen.
+> 1️⃣ **Verano vende 3.4x más que Invierno** ($2.24M vs. $653K) → Oportunidad clara de campañas en temporada baja.  
+> 2️⃣ **Colombia tiene el mismo margen que Perú/Chile pero vende menos** → El problema es volumen transaccional, no eficiencia.
 >
 > **Propuesta de Acción:**  
-> • Activar campaña promocional estacional en Invierno para reactivar categorías frías (Ropa/Hogar).  
-> • Auditar cobertura de marketing y ventas en Colombia antes de tocar precios o costos.
+> • Diseñar una promoción estacional para reactivar Ropa y Hogar durante Invierno.  
+> • Evaluar cobertura de marketing y distribución en Colombia antes de tocar costos o precios.
 
 ---
 
@@ -87,7 +107,10 @@ El negocio gestionaba ~10,000 transacciones sin una visión analítica unificada
 
 ```text
 ├── README.md                         <- Presentación del proyecto e informe ejecutivo
-├── dashboard_andes_retail.twbx       <- Archivo fuente del Dashboard interactivo en Tableau
+├── visualizaciones/
+     ├── vision_general.png            <- Captura de la Vista Overview del Dashboard
+│    ├── vision_detallada.png         <- Captura de la Vista Detallada del Dashboard
 └── datasets/
-    ├── dataset_andes_retail.csv      <- Dataset transaccional (5,000 registros)
-    └── jupyter_exploracion.ipynb     <- Código Python de limpieza y validación de datos
+    ├── dataset_andes_retail.csv       <- Dataset transaccional (5,000 registros)
+└── notebook/
+    ├── S10Proyecto.ipynb              <- Código Python de limpieza y validación de datos
