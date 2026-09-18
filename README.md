@@ -53,7 +53,6 @@ El proyecto se estructuró bajo una jerarquía visual estratégica: **KPIs en la
 * **Ingresos y Ganancia por Segmento (Columnas Agrupadas):** Compara el aporte de los segmentos Económico, Premium y Estándar.
 * **Impacto por Categoría de Producto(Barras Horizontales):** Muestra la contribución de Deportes, Electrónica, Hogar y Ropa.
 
-![Visión General](visualizaciones/vision_general.png)
 
 ---
 
@@ -66,7 +65,7 @@ El proyecto se estructuró bajo una jerarquía visual estratégica: **KPIs en la
 * **Scatter Diagnóstico (Dispersión Ingresos vs % Margen):** Cruza volumen de ventas contra eficiencia de margen con líneas de referencia promedio para aislar el problema real de negocio.
 * **Tabla Comparativa Final:** Presenta el desglose con conteo de pedidos, clientes únicos, ganancia y % de margen.
 
-![Visión Detallada](https://github.com/yaneladata/andes-retail-desempeno-comercial/blob/main/visualizaciones/Visi%C3%B3n%20Detallada.png)
+
 
 ---
 
