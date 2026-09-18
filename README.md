@@ -107,9 +107,9 @@ El proyecto se estructuró bajo una jerarquía visual estratégica: **KPIs en la
 ```text
 ├── README.md                         <- Presentación del proyecto e informe ejecutivo
 ├── visualizaciones/
-     ├── vision_general.png            <- Captura de la Vista Overview del Dashboard
+     ├── vision_general.png           <- Captura de la Vista Overview del Dashboard
 │    ├── vision_detallada.png         <- Captura de la Vista Detallada del Dashboard
 └── datasets/
-    ├── dataset_andes_retail.csv       <- Dataset transaccional (5,000 registros)
+    ├── dataset_andes_retail.csv      <- Dataset transaccional (5,000 registros)
 └── notebook/
-    ├── S10Proyecto.ipynb              <- Código Python de limpieza y validación de datos
+    ├── S10Proyecto.ipynb             <- Código Python de limpieza y validación de datos
